@@ -1,5 +1,5 @@
 import { observable, action} from 'mobx'
-
+import data from './suduku_data.json'
 
 class DataStore {
 
@@ -15,6 +15,12 @@ class DataStore {
         [0, 0, 0, 0, 0, 0, 0, 1, 0],
         [0, 1, 8, 6, 3, 0, 2, 9, 4]
     ];
+
+    _numbers;
+
+    constructor() {
+        this._numbers = data['numbers']
+    }
 
     @action
     solve() {
@@ -49,6 +55,48 @@ class DataStore {
         });
     }
 
+    @action
+    change() {
+        //get a random number from the list and convert it into a flat decimal list
+        let num = this._numbers[Math.floor(Math.random()*this._numbers.length)],
+            digits = num.trim().split('').map((n) => parseInt(n));
+
+        if(digits.length === 81) {
+            let new_data = [];
+            while(digits.length > 0) {
+                new_data.push(digits.splice(0,9))
+            }
+            this.data = new_data
+        } else {
+            this.data = [
+                [8, 5, 6, 0, 1, 4, 7, 3, 0],
+                [0, 9, 0, 0, 0, 0, 0, 0, 0],
+                [2, 4, 0, 0, 0, 0, 1, 6, 0],
+                [0, 6, 2, 0, 5, 9, 3, 0, 0],
+                [0, 3, 1, 8, 0, 2, 4, 5, 0],
+                [0, 0, 5, 3, 4, 0, 9, 2, 0],
+                [0, 2, 4, 0, 0, 0, 0, 7, 3],
+                [0, 0, 0, 0, 0, 0, 0, 1, 0],
+                [0, 1, 8, 6, 3, 0, 2, 9, 4]
+            ];
+        }
+
+        // //get the least significant digit one after the other
+        // while(num !== 0){
+        //     digit = num % 10;
+        //     digits.push(digit);
+        //     num = Math.floor(num / 10)
+        // }
+        // //padding the missing digit
+        // if(digits.length < 81) {
+        //     let paddings = 81 - digits.length;
+        //     while(paddings > 0) {
+        //         digits.push(0);
+        //         paddings--
+        //     }
+        // }
+    }
+
     _check_row(num, i) {
         for(let j = 0; j < this.data[i].length; j++) {
             if(this.data[i][j] === num) {
@@ -67,20 +115,6 @@ class DataStore {
         return true;
     }
 
-    @action
-    change() {
-        this.data = [
-            [0, 0, 4, 3, 0, 0, 2, 0, 9],
-            [0, 0, 5, 0, 0, 9, 0, 0, 1],
-            [0, 7, 0, 0, 6, 0, 0, 4, 3],
-            [0, 0, 6, 0, 0, 2, 0, 8, 7],
-            [1, 9, 0, 0, 0, 7, 4, 0, 0],
-            [0, 5, 0, 0, 8, 3, 0, 0, 0],
-            [6, 0, 0 ,0, 0, 0, 1, 0, 5],
-            [0, 0, 3, 5, 0, 8, 6, 9, 0],
-            [0, 4, 2, 9, 1, 0, 3, 0, 0]
-        ]
-    }
 }
 
 
