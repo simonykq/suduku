@@ -53,13 +53,13 @@ export default class Suduku extends React.Component {
     render() {
         return (
                 <ScrollView contentContainerStyle={styles.container}>
-                    <View style={{ alignItems: 'center' }}>
+                    <View style={ styles.center }>
                         <Text style={ styles.header }>
                             Suduku
                         </Text>
                     </View>
-                    <View style={{ padding: 20 }}>
-                        <Table borderStyle={{borderColor: '#add620'}}>
+                    <View>
+                        <Table borderStyle={{ borderColor: '#add620' }}>
                             {
                                 this.props.store.data.map((rowData, rowIndex) => {
                                     return (
@@ -101,7 +101,7 @@ export default class Suduku extends React.Component {
                             <Switch value={this.state.advanced} onValueChange={this.useAdvanced.bind(this)} />
                         </View>
                     </View>
-                    <View style={{ alignItems: 'center' }}>
+                    <View style={ styles.center }>
                         <TouchableOpacity style={[styles.btn, {opacity: this.state.status === 'Solved' ? 0.5 : 1}]}
                                           onPress={this.solve.bind(this)}
                                           disabled={this.state.status === 'Solved'}>
@@ -116,7 +116,7 @@ export default class Suduku extends React.Component {
                             <Text style={styles.btnText}>Reset</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ alignItems: 'center' }}>
+                    <View style={ styles.center }>
                         <TouchableOpacity style={styles.btn} onPress={this.change.bind(this)}>
                             <Text style={styles.btnText}>Try Another</Text>
                         </TouchableOpacity>
@@ -139,11 +139,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'Cochin'
     },
-    // table: {
-    //     width: 100,
-    //     borderWidth: 2,
-    //     borderColor: '#add620'
-    // },
+    center: {
+        alignItems: 'center'
+    },
     wrapper: { flexDirection: 'row' },
     solved: {
         justifyContent: 'center',
