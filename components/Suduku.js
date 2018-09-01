@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react/native'
-import { StyleSheet, View, Text, ScrollView, Button, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
 import { Table, Rows, Cell, TableWrapper} from 'react-native-table-component';
 
 @observer

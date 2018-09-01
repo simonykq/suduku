@@ -3,6 +3,7 @@ import data from './suduku_data.json'
 
 class DataStore {
 
+    // the current suduku puzzle
     @observable
     data = [
         [8, 5, 6, 0, 1, 4, 7, 3, 0],
@@ -16,6 +17,10 @@ class DataStore {
         [0, 1, 8, 6, 3, 0, 2, 9, 4]
     ];
 
+    // back track paths is used to 'remember' the empty entries
+    _back_track_paths = [];
+
+    // all suduku puzzles available
     _numbers;
 
     constructor() {
@@ -25,8 +30,7 @@ class DataStore {
     @action
     solve() {
         return new Promise((resolve, reject) => {
-            let back_track_paths = [],
-                back_track = false;
+            let back_track = false;
             for(let i = 0; i < this.data.length; i++) {
                 for(let j = 0; j < this.data.length; j++) {
                     if(this.data[i][j] === 0 || back_track) {
@@ -36,23 +40,31 @@ class DataStore {
                         }
                         if(num === 10) {
                             this.data[i][j] = 0;
-                            if(back_track_paths.length === 0) {
-                                reject('failed!');
+                            if(this._back_track_paths.length === 0) {
+                                reject('Failed!');
                             } else {
-                                [i, j] = back_track_paths.pop();
+                                [i, j] = this._back_track_paths.pop();
                                 j--;
                                 back_track = true
                             }
                         } else {
                             this.data[i][j] = num;
-                            back_track_paths.push([i, j]);
+                            this._back_track_paths.push([i, j]);
                             back_track = false
                         }
                     }
                 }
             }
-            resolve('success');
+            resolve('Success!');
         });
+    }
+
+    @action
+    reset() {
+        while(this._back_track_paths.length !== 0) {
+            let [i, j] = this._back_track_paths.pop();
+            this.data[i][j] = 0
+        }
     }
 
     @action
@@ -80,6 +92,9 @@ class DataStore {
                 [0, 1, 8, 6, 3, 0, 2, 9, 4]
             ];
         }
+
+        //clear the back track paths from previous number
+        this._back_track_paths = [];
 
         // //get the least significant digit one after the other
         // while(num !== 0){
