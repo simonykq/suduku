@@ -35,7 +35,9 @@ class DataStore {
                 for(let j = 0; j < this.data.length; j++) {
                     if(this.data[i][j] === 0 || back_track) {
                         let num = this.data[i][j] + 1;
-                        while(num <= 9 && !(this._check_row(num, i) && this._check_column(num, j))) {
+                        while(num <= 9 && !(this._check_row(num, i)
+                            && this._check_column(num, j)
+                            && this._check_grid(num, i, j))) {
                             ++num
                         }
                         if(num === 10) {
@@ -125,6 +127,22 @@ class DataStore {
         for(let i = 0; i < this.data.length; i++) {
             if(this.data[i][j] === num) {
                 return false
+            }
+        }
+        return true;
+    }
+
+    _check_grid(num, i, j) {
+        let [num_i, num_j] = [Math.floor(i / 3), Math.floor(j / 3)];
+
+        let [i_start, i_end] = [3*num_i, 3*(num_i + 1)],
+            [j_start, j_end] = [3*num_j, 3*(num_j + 1)];
+
+        for(let i = i_start; i < i_end; i++) {
+            for (let j = j_start; j < j_end; j++) {
+                if(this.data[i][j] === num) {
+                    return false
+                }
             }
         }
         return true;
