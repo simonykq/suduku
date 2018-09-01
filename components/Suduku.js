@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react/native'
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Switch} from 'react-native';
 import { Table, Rows, Cell, TableWrapper} from 'react-native-table-component';
 
 @observer
@@ -9,31 +9,31 @@ export default class Suduku extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: "Solve"
+            status: "Solve",
+            advanced: false
         }
     }
 
     solve(e) {
-        this.setState({
-            status: 'Solving'
-        }, () => {
-            this.props.store.solve()
-                .then((message) => {
-                    this.setState({
-                        status: 'Solved'
-                    });
-                    alert(message)
-                })
-                .catch((message) => {
-                    this.setState({
-                        status: 'Unsolved'
-                    });
-                    alert(message)
-                })
-        });
+        this.props.store.solve(this.state.advanced)
+            .then((res) => {
+                this.setState({
+                    status: 'Solved'
+                });
+                alert(res.message)
+            })
+            .catch((res) => {
+                this.setState({
+                    status: 'Solved'
+                });
+                alert(res.message)
+            })
     }
 
     reset(e) {
+        this.setState({
+            status: 'Solve'
+        });
         this.props.store.reset()
     }
 
@@ -42,6 +42,12 @@ export default class Suduku extends React.Component {
            status: 'Solve'
         });
         this.props.store.change();
+    }
+
+    useAdvanced(e) {
+        this.setState((prevState) => ({
+            advanced: !prevState.advanced
+        }))
     }
 
     render() {
@@ -90,12 +96,23 @@ export default class Suduku extends React.Component {
                             }
                             {/*<Rows data={this.props.store.data} textStyle={styles.text}/>*/}
                         </Table>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
+                            <Text style={styles.text}>Advanced?</Text>
+                            <Switch value={this.state.advanced} onValueChange={this.useAdvanced.bind(this)} />
+                        </View>
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={styles.btn} onPress={this.solve.bind(this)}>
+                        <TouchableOpacity style={[styles.btn, {opacity: this.state.status === 'Solved' ? 0.5 : 1}]}
+                                          onPress={this.solve.bind(this)}
+                                          disabled={this.state.status === 'Solved'}>
                             <Text style={styles.btnText}>{ this.state.status }</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.btnDanger} onPress={this.reset.bind(this)}>
+                        <TouchableOpacity style={[styles.btn, {
+                                                                backgroundColor: '#d60a11',
+                                                                opacity: this.state.status === 'Solve' ? 0.5 : 1
+                                                               }]}
+                                          onPress={this.reset.bind(this)}
+                                          disabled={this.state.status === 'Solve'}>
                             <Text style={styles.btnText}>Reset</Text>
                         </TouchableOpacity>
                     </View>
@@ -160,15 +177,6 @@ const styles = StyleSheet.create({
         height: 30,
         marginBottom: 5,
         backgroundColor: '#add620',
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    btnDanger: {
-        width: "80%",
-        height: 30,
-        marginBottom: 5,
-        backgroundColor: '#d60a11',
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center'

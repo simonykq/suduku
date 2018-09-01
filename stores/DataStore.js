@@ -28,36 +28,14 @@ class DataStore {
     }
 
     @action
-    solve() {
+    solve(advanced = false) {
         return new Promise((resolve, reject) => {
-            let back_track = false;
-            for(let i = 0; i < this.data.length; i++) {
-                for(let j = 0; j < this.data.length; j++) {
-                    if(this.data[i][j] === 0 || back_track) {
-                        let num = this.data[i][j] + 1;
-                        while(num <= 9 && !(this._check_row(num, i)
-                            && this._check_column(num, j)
-                            && this._check_grid(num, i, j))) {
-                            ++num
-                        }
-                        if(num === 10) {
-                            this.data[i][j] = 0;
-                            if(this._back_track_paths.length === 0) {
-                                reject('Failed!');
-                            } else {
-                                [i, j] = this._back_track_paths.pop();
-                                j--;
-                                back_track = true
-                            }
-                        } else {
-                            this.data[i][j] = num;
-                            this._back_track_paths.push([i, j]);
-                            back_track = false
-                        }
-                    }
-                }
+            let solution = advanced ? this._solution_2() : this._solution_1();
+            if(solution) {
+                resolve({status: 'Success!', message: `Completed! \n Time elapsed: ${solution} ms`});
+            } else {
+                reject({status: 'Failed!', message: 'No feasible solutions!'});
             }
-            resolve('Success!');
         });
     }
 
@@ -114,6 +92,90 @@ class DataStore {
         // }
     }
 
+    _solution_1() {
+        let start_time = new Date();
+        let back_track = false;
+        for(let i = 0; i < this.data.length; i++) {
+            for(let j = 0; j < this.data.length; j++) {
+                if(this.data[i][j] === 0 || back_track) {
+                    let num = this.data[i][j] + 1;
+                    while(num <= 9 && !(this._check_row(num, i)
+                        && this._check_column(num, j)
+                        && this._check_grid(num, i, j))) {
+                        ++num
+                    }
+                    if(num === 10) {
+                        this.data[i][j] = 0;
+                        if(this._back_track_paths.length === 0) {
+                            return
+                        } else {
+                            [i, j] = this._back_track_paths.pop();
+                            j--;
+                            back_track = true
+                        }
+                    } else {
+                        this.data[i][j] = num;
+                        this._back_track_paths.push([i, j]);
+                        back_track = false
+                    }
+                }
+            }
+        }
+        let end_time = new Date();
+        return (end_time - start_time);
+    }
+
+    _solution_2() {
+        let start_time = new Date();
+        let empty_slots_with_counts = [];
+
+        for(let i = 0; i < this.data.length; i++) {
+            for(let j = 0; j < this.data.length; j++) {
+                if(this.data[i][j] === 0) {
+                    let count = this._get_empty_slots_in_row(i) + this._get_empty_slots_in_column(j)
+                                                                + this._get_empty_slots_in_grid(i, j);
+                    empty_slots_with_counts.push([[i, j], count])
+                }
+            }
+        }
+
+        let empty_slots = empty_slots_with_counts.sort((a, b) => {
+            if(a[1] > b[1]) {
+                return 1
+            } else if (a[1] < b[1]) {
+                return -1
+            } else {
+                return 0
+            }
+        }).map((item) => item[0]);
+
+        while(empty_slots.length !== 0) {
+            let [i, j] = empty_slots.pop(),
+                num = this.data[i][j] + 1;
+            while(num <= 9 && !(this._check_row(num, i)
+                && this._check_column(num, j)
+                && this._check_grid(num, i, j))){
+                num++
+            }
+            if(num === 10) {
+                this.data[i][j] = 0;
+                if(this._back_track_paths.length === 0) {
+                    return
+                } else {
+                    empty_slots.push([i, j]);
+                    empty_slots.push(this._back_track_paths.pop());
+                }
+            } else {
+                this.data[i][j] = num;
+                this._back_track_paths.push([i, j]);
+            }
+        }
+
+        let end_time = new Date();
+        return (end_time - start_time);
+
+    }
+
     _check_row(num, i) {
         for(let j = 0; j < this.data[i].length; j++) {
             if(this.data[i][j] === num) {
@@ -134,10 +196,8 @@ class DataStore {
 
     _check_grid(num, i, j) {
         let [num_i, num_j] = [Math.floor(i / 3), Math.floor(j / 3)];
-
         let [i_start, i_end] = [3*num_i, 3*(num_i + 1)],
             [j_start, j_end] = [3*num_j, 3*(num_j + 1)];
-
         for(let i = i_start; i < i_end; i++) {
             for (let j = j_start; j < j_end; j++) {
                 if(this.data[i][j] === num) {
@@ -146,6 +206,38 @@ class DataStore {
             }
         }
         return true;
+    }
+
+    _get_empty_slots_in_row(i) {
+        let count = 0;
+        for (let j = 0; j < this.data[i].length; j++) {
+            if(this.data[i][j] === 0)
+                count++
+        }
+        return count;
+    }
+
+    _get_empty_slots_in_column(j) {
+        let count = 0;
+        for(let i = 0; i < this.data.length; i++) {
+            if(this.data[i][j] === 0)
+                count++
+        }
+        return count;
+    }
+
+    _get_empty_slots_in_grid(i, j) {
+        let [num_i, num_j] = [Math.floor(i / 3), Math.floor(j / 3)];
+        let [i_start, i_end] = [3*num_i, 3*(num_i + 1)],
+            [j_start, j_end] = [3*num_j, 3*(num_j + 1)];
+        let count = 0;
+        for(let i = i_start; i < i_end; i++) {
+            for (let j = j_start; j < j_end; j++) {
+                if(this.data[i][j] === 0)
+                    count++
+            }
+        }
+        return count;
     }
 
 }
