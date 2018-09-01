@@ -52,17 +52,35 @@ export default class Suduku extends React.Component {
                             Suduku
                         </Text>
                     </View>
-                    <View>
-                        <Table borderStyle={{borderWidth: 2, borderColor: '#add620'}}>
+                    <View style={{ padding: 20 }}>
+                        <Table borderStyle={{borderColor: '#add620'}}>
                             {
                                 this.props.store.data.map((rowData, rowIndex) => {
                                     return (
                                         <TableWrapper key={rowIndex} style={styles.wrapper}>
                                             {
                                                 ((rowData.map((cellData, cellIndex) => {
+                                                    let style = [];
+                                                    if(cellIndex % 3 === 0) {
+                                                        style.push({borderLeftWidth: 2.5})
+                                                    }
+                                                    if(rowIndex % 3 === 0) {
+                                                        style.push({borderTopWidth: 2.5})
+                                                    }
+                                                    if(cellIndex === 8) {
+                                                        style.push({borderRightWidth: 2.5})
+                                                    }
+                                                    if(rowIndex === 8) {
+                                                        style.push({borderBottomWidth: 2.5})
+                                                    }
+                                                    if(cellData === 0) {
+                                                        style.push(styles.empty)
+                                                    } else {
+                                                        style.push(styles.solved)
+                                                    }
                                                     return (<Cell key={cellIndex}
                                                                   data={cellData === 0 ? '' : cellData}
-                                                                  style={cellData === 0 ? styles.empty : styles.solved}
+                                                                  style={style}
                                                                   textStyle={styles.text}/>)
                                                 })))
                                             }
@@ -111,12 +129,26 @@ const styles = StyleSheet.create({
     // },
     wrapper: { flexDirection: 'row' },
     solved: {
-        width: '11.2%',
+        justifyContent: 'center',
+        flex: 1,
         backgroundColor: '#f0f0f0'
     },
-    emply: {
-        width: '11.2%',
+    empty: {
+        justifyContent: 'center',
+        flex: 1,
         backgroundColor: '#fff'
+    },
+    boldHorizontal: {
+        borderLeftWidth: 2.5
+    },
+    boldVertical: {
+        borderTopWidth: 2.5
+    },
+    boldRight: {
+        borderRightWidth: 2.5
+    },
+    boldBottom: {
+        borderBottomWidth: 2.5
     },
     text: {
         margin: 6,
