@@ -102,14 +102,14 @@ export default class Suduku extends React.Component {
                         </View>
                     </View>
                     <View style={ styles.center }>
-                        <TouchableOpacity style={[styles.btn, {opacity: this.state.status === 'Solved' ? 0.5 : 1}]}
+                        <TouchableOpacity style={[styles.btn, {opacity: this.state.status === 'Solved' ? 0.3 : 1}]}
                                           onPress={this.solve.bind(this)}
                                           disabled={this.state.status === 'Solved'}>
                             <Text style={styles.btnText}>{ this.state.status }</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.btn, {
                                                                 backgroundColor: '#d60a11',
-                                                                opacity: this.state.status === 'Solve' ? 0.5 : 1
+                                                                opacity: this.state.status === 'Solve' ? 0.3 : 1
                                                                }]}
                                           onPress={this.reset.bind(this)}
                                           disabled={this.state.status === 'Solve'}>

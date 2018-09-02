@@ -1,3 +1,4 @@
+import 'es6-symbol/implement';
 import React from 'react';
 import Suduku from './components/Suduku';
 import { Navigator } from 'react-native-deprecated-custom-components';
