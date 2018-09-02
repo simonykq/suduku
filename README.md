@@ -8,7 +8,7 @@ as the state management framework. The solver algorithm is based on the back-tra
 travelled paths and back-tracks to the most recent one should it gets into dead-end in current path. It keeps trying 
 until all empty cells on an 8 * 8 grid are filled. 
 
-![iOS screenshot](./ios.png =250x250)
+![iOS screenshot](./ios.png)
 
 To load different suduku numbers, find the `suduku_data.json` file under `stores` directory and put the numbers as flat 
 string ordered by the horizontal order (on the 8 * 8 grid) into the 'numbers' field. The application will randomly pick 
