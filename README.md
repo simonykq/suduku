@@ -4,13 +4,13 @@
 
 A soduku solver application that runs on mobile platforms (iOS and Android). The application is implemented using the 
 latest [React Native](https://facebook.github.io/react-native/) as the UI framework, and [Mobx](https://mobx.js.org/) 
-as the state management framework. The solver algorithm is based on the back-tracking, where it remembers the previous  
+as the state management framework. The solver algorithm is based on the back-tracking, where it remembers the previous 
 travelled paths and back-tracks to the most recent one should it gets into dead-end in current path. It keeps trying 
 until all empty cells on an 8 * 8 grid are filled. 
 
-![iOS screenshot](./ios.png)
+![iOS screenshot](./ios.png =250x250)
 
-![Android screenshot](./android.png)
+![Android screenshot](./android.png =250x250)
 
 To load different suduku numbers, find the `suduku_data.json` file under `stores` directory and put the numbers as flat 
 string ordered by the horizontal order (on the 8 * 8 grid) into the 'numbers' field. The application will randomly pick 
