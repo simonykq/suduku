@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     text: {
         margin: 6,
         textAlign: 'center',
-        fontFamily: 'Times'
+        fontFamily: 'Cochin'
     },
     btn: {
         width: "80%",
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     },
     btnText: {
         color: '#fff',
-        fontFamily: 'Times'
+        fontFamily: 'Cochin'
     }
 
 });
