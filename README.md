@@ -10,8 +10,6 @@ until all empty cells on an 8 * 8 grid are filled.
 
 ![iOS screenshot](./ios.png =250x250)
 
-![Android screenshot](./android.png =250x250)
-
 To load different suduku numbers, find the `suduku_data.json` file under `stores` directory and put the numbers as flat 
 string ordered by the horizontal order (on the 8 * 8 grid) into the 'numbers' field. The application will randomly pick 
 one number each time you click the 'Try Another' button.
