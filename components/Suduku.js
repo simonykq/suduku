@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Cochin'
     },
     btn: {
-        width: "80%",
+        width: '100%',
         height: 30,
         marginBottom: 5,
         backgroundColor: '#add620',
