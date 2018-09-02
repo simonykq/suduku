@@ -1,137 +1,102 @@
-This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
+# Back-Tracking Soduku Solver
 
-Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
+## Description
 
-## Table of Contents
+A soduku solver application that runs on mobile platforms (iOS and Android). The application is implemented using the 
+latest [React Native](https://facebook.github.io/react-native/) as the UI framework, and [Mobx](https://mobx.js.org/) 
+as the state management framework. The solver algorithm is based on the back-tracking, where it remembers the previous  
+travelled paths and back-tracks to the most recent one should it gets into dead-end in current path. It keeps trying 
+until all empty cells on an 8 * 8 grid are filled. 
 
-* [Updating to New Releases](#updating-to-new-releases)
-* [Available Scripts](#available-scripts)
-  * [npm start](#npm-start)
-  * [npm test](#npm-test)
-  * [npm run ios](#npm-run-ios)
-  * [npm run android](#npm-run-android)
-  * [npm run eject](#npm-run-eject)
-* [Writing and Running Tests](#writing-and-running-tests)
-* [Environment Variables](#environment-variables)
-  * [Configuring Packager IP Address](#configuring-packager-ip-address)
-* [Customizing App Display Name and Icon](#customizing-app-display-name-and-icon)
-* [Sharing and Deployment](#sharing-and-deployment)
-  * [Publishing to Expo's React Native Community](#publishing-to-expos-react-native-community)
-  * [Building an Expo "standalone" app](#building-an-expo-standalone-app)
-  * [Ejecting from Create React Native App](#ejecting-from-create-react-native-app)
-    * [Build Dependencies (Xcode & Android Studio)](#build-dependencies-xcode-android-studio)
-    * [Should I Use ExpoKit?](#should-i-use-expokit)
-* [Troubleshooting](#troubleshooting)
-  * [Networking](#networking)
-  * [iOS Simulator won't open](#ios-simulator-wont-open)
-  * [QR Code does not scan](#qr-code-does-not-scan)
+![iOS screenshot](./ios.png)
 
-## Updating to New Releases
+![Android screenshot](./android.png)
 
-You should only need to update the global installation of `create-react-native-app` very rarely, ideally never.
+To load different suduku numbers, find the `suduku_data.json` file under `stores` directory and put the numbers as flat 
+string ordered by the horizontal order (on the 8 * 8 grid) into the 'numbers' field. The application will randomly pick 
+one number each time you click the 'Try Another' button.
 
-Updating the `react-native-scripts` dependency of your app should be as simple as bumping the version number in `package.json` and reinstalling your project's dependencies.
+This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app)
+and [Expo](https://expo.io/)
 
-Upgrading to a new version of React Native requires updating the `react-native`, `react`, and `expo` package versions, and setting the correct `sdkVersion` in `app.json`. See the [versioning guide](https://github.com/react-community/create-react-native-app/blob/master/VERSIONS.md) for up-to-date information about package version compatibility.
 
-## Available Scripts
+## Getting Started
 
-If Yarn was installed when the project was initialized, then dependencies will have been installed via Yarn, and you should probably use it to run these commands as well. Unlike dependency installation, command running syntax is identical for Yarn and NPM at the time of this writing.
-
-### `npm start`
-
-Runs your app in development mode.
-
-Open it in the [Expo app](https://expo.io) on your phone to view it. It will reload if you save edits to your files, and you will see build errors and logs in the terminal.
-
-Sometimes you may need to reset or clear the React Native packager's cache. To do so, you can pass the `--reset-cache` flag to the start script:
+Clone this repository and make sure you have [__npm__](https://nodejs.org/en/download/) and 
+[__node__](https://nodejs.org/en/download/) installed. Navigate to this directory and then install dependencies by running:
 
 ```
-npm start --reset-cache
-# or
-yarn start --reset-cache
+  npm install
 ```
 
-#### `npm test`
+You may also want to install the Expo local development tools (XDE or exp) to facilitate the development, 
+build and deployment of the React Native app. Check [this link](https://docs.expo.io/versions/v29.0.0/introduction/installation) 
+for details to get everything installed on your desktop. 
 
-Runs the [jest](https://github.com/facebook/jest) test runner on your tests.
+## Running React Native App
 
-#### `npm run ios`
-
-Like `npm start`, but also attempts to open your app in the iOS Simulator if you're on a Mac and have it installed.
-
-#### `npm run android`
-
-Like `npm start`, but also attempts to open your app on a connected Android device or emulator. Requires an installation of Android build tools (see [React Native docs](https://facebook.github.io/react-native/docs/getting-started.html) for detailed setup). We also recommend installing Genymotion as your Android emulator. Once you've finished setting up the native build environment, there are two options for making the right copy of `adb` available to Create React Native App:
-
-##### Using Android Studio's `adb`
-
-1. Make sure that you can run adb from your terminal.
-2. Open Genymotion and navigate to `Settings -> ADB`. Select “Use custom Android SDK tools” and update with your [Android SDK directory](https://stackoverflow.com/questions/25176594/android-sdk-location).
-
-##### Using Genymotion's `adb`
-
-1. Find Genymotion’s copy of adb. On macOS for example, this is normally `/Applications/Genymotion.app/Contents/MacOS/tools/`.
-2. Add the Genymotion tools directory to your path (instructions for [Mac](http://osxdaily.com/2014/08/14/add-new-path-to-path-command-line/), [Linux](http://www.computerhope.com/issues/ch001647.htm), and [Windows](https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/)).
-3. Make sure that you can run adb from your terminal.
-
-#### `npm run eject`
-
-This will start the process of "ejecting" from Create React Native App's build scripts. You'll be asked a couple of questions about how you'd like to build your project.
-
-**Warning:** Running eject is a permanent action (aside from whatever version control system you use). An ejected app will require you to have an [Xcode and/or Android Studio environment](https://facebook.github.io/react-native/docs/getting-started.html) set up.
-
-## Customizing App Display Name and Icon
-
-You can edit `app.json` to include [configuration keys](https://docs.expo.io/versions/latest/guides/configuration.html) under the `expo` key.
-
-To change your app's display name, set the `expo.name` key in `app.json` to an appropriate string.
-
-To set an app icon, set the `expo.icon` key in `app.json` to be either a local path or a URL. It's recommended that you use a 512x512 png file with transparency.
-
-## Writing and Running Tests
-
-This project is set up to use [jest](https://facebook.github.io/jest/) for tests. You can configure whatever testing strategy you like, but jest works out of the box. Create test files in directories called `__tests__` or with the `.test` extension to have the files loaded by jest. See the [the template project](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/App.test.js) for an example test. The [jest documentation](https://facebook.github.io/jest/docs/en/getting-started.html) is also a wonderful resource, as is the [React Native testing tutorial](https://facebook.github.io/jest/docs/en/tutorial-react-native.html).
-
-## Environment Variables
-
-You can configure some of Create React Native App's behavior using environment variables.
-
-### Configuring Packager IP Address
-
-When starting your project, you'll see something like this for your project URL:
+Once you have the dependencies installed, you are good to run the React Native application by running the command:
 
 ```
-exp://192.168.0.2:19000
-```
-
-The "manifest" at that URL tells the Expo app how to retrieve and load your app's JavaScript bundle, so even if you load it in the app via a URL like `exp://localhost:19000`, the Expo client app will still try to retrieve your app at the IP address that the start script provides.
-
-In some cases, this is less than ideal. This might be the case if you need to run your project inside of a virtual machine and you have to access the packager via a different IP address than the one which prints by default. In order to override the IP address or hostname that is detected by Create React Native App, you can specify your own hostname via the `REACT_NATIVE_PACKAGER_HOSTNAME` environment variable:
-
-Mac and Linux:
-
-```
-REACT_NATIVE_PACKAGER_HOSTNAME='my-custom-ip-address-or-hostname' npm start
-```
-
-Windows:
-```
-set REACT_NATIVE_PACKAGER_HOSTNAME='my-custom-ip-address-or-hostname'
 npm start
 ```
 
-The above example would cause the development server to listen on `exp://my-custom-ip-address-or-hostname:19000`.
+This will run a server terminal that serves your native application in development mode. To view the application 
+in your mobile devices, you will need to install the [Expo client](https://expo.io) on your phone. 
+The __[Expo client]__ will reload your app if you save edits to your files, and you will see build errors and logs in the terminal.
+                                                     
+Sometimes you may need to pass the `--reset-cache` option on the `npm start` command to reset or clear 
+the React Native packager's cache. 
 
-## Sharing and Deployment
+## Running on mobile devices
 
-Create React Native App does a lot of work to make app setup and development simple and straightforward, but it's very difficult to do the same for deploying to Apple's App Store or Google's Play Store without relying on a hosted service.
+To view your application on your devices, you will first need to connect the mobile device to the same Wi-Fi network
+that runs your React Native application. Then you will need to download the [Expo client](https://expo.io/tools#client) 
+on iOS or Android in order to run your application. Once you have downloaded the __Expo client__, you can either view your
+application by scanning the QR code displayed from the server terminal or have a link sent directly to your phone through 
+SMS over Cellular network. In the server terminal, to display the QR code, simply type `q` and to request an _Expo URL_ 
+sent to your phone, type `s`, followed by your phone number. For other information, follow the instructions on the terminal
+screen. Notice that you do not need to create an account and sign in to Expo in order to view your application. 
+
+## Running on mobile simulator
+
+To view your application on an iOS simulator (MacOS only) and Android simulator, you will need to set up the Xcode and
+Android development environment respectively. For setting up the Xcode development environment to run iOS simulator, 
+follow the official Xcode installation guideline from [Apple App Store](https://itunes.apple.com/app/xcode/id497799835).
+Once you have installed the Xcode, you can view your application on an iOS simulator by running:
+
+```
+  npm run ios
+```
+
+from the project directory or type `i` on the server terminal while your React Native application is running through `npm start`
+
+For setting up the Android development environment and set up an virtual Android device, follow 
+[this](https://docs.expo.io/versions/v29.0.0/workflow/android-studio-emulator.html) link. You will need to install 
+Android Studio 3.0 +. Once you have set these up, you can view your application on an pre-configured Android device by
+running:
+
+```
+  npm run android
+```
+
+from the project directory or type `a` on the server terminal while your React Native application is running through `npm start`
+
+## Publishing and Deployment
+
+[Create React Native App](https://github.com/react-community/create-react-native-app) and [Expo](https://expo.io/) 
+does a lot of work to make app setup and development simple and straightforward, but it's very difficult to do the same 
+for deploying to Apple's App Store or Google's Play Store without relying on a hosted service. It is therefore, Expo
+offers a variety of ways to publish and deploy your React Native applications that can be accessed by anyone over internet.
 
 ### Publishing to Expo's React Native Community
 
-Expo provides free hosting for the JS-only apps created by CRNA, allowing you to share your app through the Expo client app. This requires registration for an Expo account.
+The most easy way to publish your native app is probably to publish it to the Expo hosting service. Expo provides 
+free hosting for the JS-only apps created by CRNA, allowing you to share your app through the Expo client app. 
+This requires registration for an Expo account and to open your app, each person who wants to view it must have 
+[Expo client](https://expo.io/tools#client) installed on their mobile devices and sign in to their Expo accounts.
 
-Install the `exp` command-line tool, and run the publish command:
+To publish your React Native app created through Expo, install the `exp` command-line tool, and run the publish command:
 
 ```
 $ npm i -g exp
@@ -140,17 +105,28 @@ $ exp publish
 
 ### Building an Expo "standalone" app
 
-You can also use a service like [Expo's standalone builds](https://docs.expo.io/versions/latest/guides/building-standalone-apps.html) if you want to get an IPA/APK for distribution without having to build the native code yourself.
+You can also use Expo to build your React Native application standalone, without relying on Expo's hosting service. Follow
+the instructions on the [Expo's standalone builds](https://docs.expo.io/versions/latest/guides/building-standalone-apps.html) link
+to figure out how you can get an IPA/APK package for distribution without building the native code yourself. You will
+probably need an Apple Developer account or a Google Play Developer account.
 
 ### Ejecting from Create React Native App
 
-If you want to build and deploy your app yourself, you'll need to eject from CRNA and use Xcode and Android Studio.
+In the last stand if you want to add some native code (Objective-C or Swift for iOS and Java for Android) or access to the
+platform specific SDK in your application to build and deploy app yourself, you can _eject_ the application from Expo 
+and use Xcode or Android Studio IDEs to continue your development. The ejected code will be ready to be imported by 
+Xcode for iOS or by Android Studio for Android.
 
-This is usually as simple as running `npm run eject` in your project, which will walk you through the process. Make sure to install `react-native-cli` and follow the [native code getting started guide for React Native](https://facebook.github.io/react-native/docs/getting-started.html).
+To eject your CRNA application into native builds, run following commands:
 
-#### Should I Use ExpoKit?
+```
+  npm run eject 
+```
 
-If you have made use of Expo APIs while working on your project, then those API calls will stop working if you eject to a regular React Native project. If you want to continue using those APIs, you can eject to "React Native + ExpoKit" which will still allow you to build your own native code and continue using the Expo APIs. See the [ejecting guide](https://github.com/react-community/create-react-native-app/blob/master/EJECTING.md) for more details about this option.
+You will also need to install `watchman` and `react-native-cli` before importing to the project into Xcode or Android Studio.
+Follow the instructions on [native code getting started guide for React Native](https://facebook.github.io/react-native/docs/getting-started.html)
+to get more details.
+
 
 ## Troubleshooting
 
