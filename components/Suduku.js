@@ -191,7 +191,8 @@ const styles = StyleSheet.create({
     },
     btnText: {
         color: '#fff',
-        fontFamily: 'Cochin'
+        fontFamily: 'Cochin',
+        fontWeight: 'bold'
     }
 
 });
