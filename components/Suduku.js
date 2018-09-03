@@ -2,13 +2,11 @@ import React from 'react';
 import { Font } from 'expo';
 import { observer } from 'mobx-react/native'
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, ScrollView, TouchableOpacity, Switch, Dimensions } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Switch, Dimensions, Alert } from 'react-native';
 import { Table, Cell, TableWrapper} from 'react-native-table-component';
 
 
 let { width } = Dimensions.get('window');
-
-console.log(width);
 
 EStyleSheet.build({
     $rem: (width >= 1024) ? 20 : (width >= 375) ? 18 : 16,
@@ -44,13 +42,13 @@ export default class Suduku extends React.Component {
                 this.setState({
                     status: 'Solved'
                 });
-                alert(res.message)
+                Alert.alert(res.status, res.message)
             })
             .catch((res) => {
                 this.setState({
                     status: 'Solved'
                 });
-                alert(res.message)
+                Alert.alert(res.status, res.message)
             })
     }
 

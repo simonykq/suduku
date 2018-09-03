@@ -32,7 +32,7 @@ class DataStore {
         return new Promise((resolve, reject) => {
             let solution = advanced ? this._solution_2() : this._solution_1();
             if(solution) {
-                resolve({status: 'Success!', message: `Completed! \n Time elapsed: ${solution} ms`});
+                resolve({status: 'Succeeded!', message: `Time elapsed: ${solution} ms`});
             } else {
                 reject({status: 'Failed!', message: 'No feasible solutions!'});
             }
