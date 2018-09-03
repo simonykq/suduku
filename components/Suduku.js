@@ -12,8 +12,8 @@ console.log(width);
 
 EStyleSheet.build({
     $rem: (width >= 1024) ? 20 : (width >= 375) ? 18 : 16,
-    $primaryColor: '#add620',
-    $secondaryColor: '#d60a11',
+    $primaryColor: '#60a628',
+    $secondaryColor: '#d63739',
     $primaryFont: 'Cochin',
     $borderWidth: '0.15rem',
 
