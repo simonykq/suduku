@@ -1,8 +1,23 @@
 import React from 'react';
 import { Font } from 'expo';
 import { observer } from 'mobx-react/native'
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Switch} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { View, Text, ScrollView, TouchableOpacity, Switch, Dimensions } from 'react-native';
 import { Table, Cell, TableWrapper} from 'react-native-table-component';
+
+
+let { width } = Dimensions.get('window');
+
+console.log(width);
+
+EStyleSheet.build({
+    $rem: (width >= 1024) ? 20 : (width >= 375) ? 18 : 16,
+    $primaryColor: '#add620',
+    $secondaryColor: '#d60a11',
+    $primaryFont: 'Cochin',
+    $borderWidth: '0.15rem',
+
+});
 
 @observer
 export default class Suduku extends React.Component {
@@ -69,25 +84,26 @@ export default class Suduku extends React.Component {
                             </Text>
                         </View>
                         <View>
-                            <Table borderStyle={{ borderColor: '#add620' }}>
+                            <Table borderStyle={{ borderColor: EStyleSheet.value('$primaryColor') }}>
                                 {
                                     this.props.store.data.map((rowData, rowIndex) => {
                                         return (
                                             <TableWrapper key={rowIndex} style={styles.wrapper}>
                                                 {
                                                     ((rowData.map((cellData, cellIndex) => {
-                                                        let style = [];
+                                                        let style = [styles.cell],
+                                                            border = EStyleSheet.value('$borderWidth');
                                                         if(cellIndex % 3 === 0) {
-                                                            style.push({borderLeftWidth: 2.5})
+                                                            style.push({borderLeftWidth: border})
                                                         }
                                                         if(rowIndex % 3 === 0) {
-                                                            style.push({borderTopWidth: 2.5})
+                                                            style.push({borderTopWidth: border})
                                                         }
                                                         if(cellIndex === 8) {
-                                                            style.push({borderRightWidth: 2.5})
+                                                            style.push({borderRightWidth: border})
                                                         }
                                                         if(rowIndex === 8) {
-                                                            style.push({borderBottomWidth: 2.5})
+                                                            style.push({borderBottomWidth: border})
                                                         }
                                                         if(cellData === 0) {
                                                             style.push(styles.empty)
@@ -97,7 +113,7 @@ export default class Suduku extends React.Component {
                                                         return (<Cell key={cellIndex}
                                                                       data={cellData === 0 ? '' : cellData}
                                                                       style={style}
-                                                                      textStyle={styles.text}/>)
+                                                                      textStyle={styles.cellText}/>)
                                                     })))
                                                 }
                                             </TableWrapper>
@@ -117,9 +133,9 @@ export default class Suduku extends React.Component {
                                 <Text style={styles.btnText}>{ this.state.status }</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={[styles.btn, {
-                                backgroundColor: '#d60a11',
-                                opacity: this.state.status === 'Solve' ? 0.2 : 1
-                            }]}
+                                                        backgroundColor: EStyleSheet.value('$secondaryColor'),
+                                                        opacity: this.state.status === 'Solve' ? 0.2 : 1
+                                                    }]}
                                               onPress={this.reset.bind(this)}
                                               disabled={this.state.status === 'Solve'}>
                                 <Text style={styles.btnText}>Reset</Text>
@@ -136,18 +152,17 @@ export default class Suduku extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
-        backgroundColor: '#fff',
+        padding: '1.5rem',
         justifyContent: 'space-evenly'
     },
     header: {
-        fontSize: 20,
-        color: '#add620',
+        fontSize: '2rem',
+        color: '$primaryColor',
         fontWeight: 'bold',
-        fontFamily: 'Cochin'
+        fontFamily: '$primaryFont'
     },
     center: {
         alignItems: 'center'
@@ -160,38 +175,29 @@ const styles = StyleSheet.create({
     },
     empty: {
         justifyContent: 'center',
-        flex: 1,
-        backgroundColor: '#fff'
+        flex: 1
     },
-    boldHorizontal: {
-        borderLeftWidth: 2.5
+    cell: {
+        width: '100%',
+        height: '2rem'
     },
-    boldVertical: {
-        borderTopWidth: 2.5
-    },
-    boldRight: {
-        borderRightWidth: 2.5
-    },
-    boldBottom: {
-        borderBottomWidth: 2.5
-    },
-    text: {
-        margin: 6,
+    cellText: {
+        margin: '0.25rem',
         textAlign: 'center',
-        fontFamily: 'Cochin'
+        fontFamily: '$primaryFont'
     },
     btn: {
         width: '100%',
-        height: 30,
-        marginBottom: 5,
-        backgroundColor: '#add620',
-        borderRadius: 10,
+        height: '2rem',
+        marginBottom: '0.25rem',
+        backgroundColor: '$primaryColor',
+        borderRadius: '0.5rem',
         justifyContent: 'center',
         alignItems: 'center'
     },
     btnText: {
         color: '#fff',
-        fontFamily: 'Cochin',
+        fontFamily: '$primaryFont',
         fontWeight: 'bold'
     }
 
