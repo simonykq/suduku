@@ -1,7 +1,8 @@
 import React from 'react';
+import { Font } from 'expo';
 import { observer } from 'mobx-react/native'
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Switch} from 'react-native';
-import { Table, Rows, Cell, TableWrapper} from 'react-native-table-component';
+import { Table, Cell, TableWrapper} from 'react-native-table-component';
 
 @observer
 export default class Suduku extends React.Component {
@@ -10,8 +11,16 @@ export default class Suduku extends React.Component {
         super(props);
         this.state = {
             status: "Solve",
-            advanced: false
+            advanced: false,
+            fontLoaded: false
         }
+    }
+
+    async componentDidMount() {
+        await Font.loadAsync({
+            'Cochin': require('../assets/fonts/Cochin.ttf'),
+        });
+        this.setState({ fontLoaded: true });
     }
 
     solve(e) {
@@ -52,76 +61,77 @@ export default class Suduku extends React.Component {
 
     render() {
         return (
-                <ScrollView contentContainerStyle={styles.container}>
-                    <View style={ styles.center }>
-                        <Text style={ styles.header }>
-                            Suduku
-                        </Text>
-                    </View>
-                    <View>
-                        <Table borderStyle={{ borderColor: '#add620' }}>
-                            {
-                                this.props.store.data.map((rowData, rowIndex) => {
-                                    return (
-                                        <TableWrapper key={rowIndex} style={styles.wrapper}>
-                                            {
-                                                ((rowData.map((cellData, cellIndex) => {
-                                                    let style = [];
-                                                    if(cellIndex % 3 === 0) {
-                                                        style.push({borderLeftWidth: 2.5})
-                                                    }
-                                                    if(rowIndex % 3 === 0) {
-                                                        style.push({borderTopWidth: 2.5})
-                                                    }
-                                                    if(cellIndex === 8) {
-                                                        style.push({borderRightWidth: 2.5})
-                                                    }
-                                                    if(rowIndex === 8) {
-                                                        style.push({borderBottomWidth: 2.5})
-                                                    }
-                                                    if(cellData === 0) {
-                                                        style.push(styles.empty)
-                                                    } else {
-                                                        style.push(styles.solved)
-                                                    }
-                                                    return (<Cell key={cellIndex}
-                                                                  data={cellData === 0 ? '' : cellData}
-                                                                  style={style}
-                                                                  textStyle={styles.text}/>)
-                                                })))
-                                            }
-                                        </TableWrapper>
-                                    )
-                                })
-                            }
-                            {/*<Rows data={this.props.store.data} textStyle={styles.text}/>*/}
-                        </Table>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
-                            <Text style={styles.text}>Advanced?</Text>
-                            <Switch value={this.state.advanced} onValueChange={this.useAdvanced.bind(this)} />
+                this.state.fontLoaded ? (
+                    <ScrollView contentContainerStyle={styles.container}>
+                        <View style={ styles.center }>
+                            <Text style={ styles.header }>
+                                Suduku
+                            </Text>
                         </View>
-                    </View>
-                    <View style={ styles.center }>
-                        <TouchableOpacity style={[styles.btn, {opacity: this.state.status === 'Solved' ? 0.3 : 1}]}
-                                          onPress={this.solve.bind(this)}
-                                          disabled={this.state.status === 'Solved'}>
-                            <Text style={styles.btnText}>{ this.state.status }</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.btn, {
-                                                                backgroundColor: '#d60a11',
-                                                                opacity: this.state.status === 'Solve' ? 0.3 : 1
-                                                               }]}
-                                          onPress={this.reset.bind(this)}
-                                          disabled={this.state.status === 'Solve'}>
-                            <Text style={styles.btnText}>Reset</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={ styles.center }>
-                        <TouchableOpacity style={styles.btn} onPress={this.change.bind(this)}>
-                            <Text style={styles.btnText}>Try Another</Text>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
+                        <View>
+                            <Table borderStyle={{ borderColor: '#add620' }}>
+                                {
+                                    this.props.store.data.map((rowData, rowIndex) => {
+                                        return (
+                                            <TableWrapper key={rowIndex} style={styles.wrapper}>
+                                                {
+                                                    ((rowData.map((cellData, cellIndex) => {
+                                                        let style = [];
+                                                        if(cellIndex % 3 === 0) {
+                                                            style.push({borderLeftWidth: 2.5})
+                                                        }
+                                                        if(rowIndex % 3 === 0) {
+                                                            style.push({borderTopWidth: 2.5})
+                                                        }
+                                                        if(cellIndex === 8) {
+                                                            style.push({borderRightWidth: 2.5})
+                                                        }
+                                                        if(rowIndex === 8) {
+                                                            style.push({borderBottomWidth: 2.5})
+                                                        }
+                                                        if(cellData === 0) {
+                                                            style.push(styles.empty)
+                                                        } else {
+                                                            style.push(styles.solved)
+                                                        }
+                                                        return (<Cell key={cellIndex}
+                                                                      data={cellData === 0 ? '' : cellData}
+                                                                      style={style}
+                                                                      textStyle={styles.text}/>)
+                                                    })))
+                                                }
+                                            </TableWrapper>
+                                        )
+                                    })
+                                }
+                            </Table>
+                            {/*<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>*/}
+                                {/*<Text style={styles.text}>Advanced?</Text>*/}
+                                {/*<Switch value={this.state.advanced} onValueChange={this.useAdvanced.bind(this)} />*/}
+                            {/*</View>*/}
+                        </View>
+                        <View style={ styles.center }>
+                            <TouchableOpacity style={[styles.btn, {opacity: this.state.status === 'Solved' ? 0.2 : 1}]}
+                                              onPress={this.solve.bind(this)}
+                                              disabled={this.state.status === 'Solved'}>
+                                <Text style={styles.btnText}>{ this.state.status }</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.btn, {
+                                backgroundColor: '#d60a11',
+                                opacity: this.state.status === 'Solve' ? 0.2 : 1
+                            }]}
+                                              onPress={this.reset.bind(this)}
+                                              disabled={this.state.status === 'Solve'}>
+                                <Text style={styles.btnText}>Reset</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={ styles.center }>
+                            <TouchableOpacity style={styles.btn} onPress={this.change.bind(this)}>
+                                <Text style={styles.btnText}>Try Another</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+                ) : null
         );
     }
 }
