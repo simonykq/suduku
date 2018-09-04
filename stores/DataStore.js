@@ -193,15 +193,15 @@ class DataStore {
         return true;
     }
 
-    _get_empty_slots_in_row(i) {
-        let count = 0;
-        for (let j = 0; j < this.data[i].length; j++) {
-            if(this.data[i][j] === 0)
-                count++
-        }
-        return count;
-    }
-
+    // _get_empty_slots_in_row(i) {
+    //     let count = 0;
+    //     for (let j = 0; j < this.data[i].length; j++) {
+    //         if(this.data[i][j] === 0)
+    //             count++
+    //     }
+    //     return count;
+    // }
+    //
     // _get_empty_slots_in_column(j) {
     //     let count = 0;
     //     for(let i = 0; i < this.data.length; i++) {
