@@ -24,7 +24,6 @@ export default class Suduku extends React.Component {
         super(props);
         this.state = {
             status: "Solve",
-            advanced: false,
             fontLoaded: false
         }
     }
@@ -37,7 +36,7 @@ export default class Suduku extends React.Component {
     }
 
     solve(e) {
-        this.props.store.solve(this.state.advanced)
+        this.props.store.solve()
             .then((res) => {
                 this.setState({
                     status: 'Solved'
@@ -64,12 +63,6 @@ export default class Suduku extends React.Component {
            status: 'Solve'
         });
         this.props.store.change();
-    }
-
-    useAdvanced(e) {
-        this.setState((prevState) => ({
-            advanced: !prevState.advanced
-        }))
     }
 
     render() {
@@ -119,10 +112,6 @@ export default class Suduku extends React.Component {
                                     })
                                 }
                             </Table>
-                            {/*<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>*/}
-                                {/*<Text style={styles.text}>Advanced?</Text>*/}
-                                {/*<Switch value={this.state.advanced} onValueChange={this.useAdvanced.bind(this)} />*/}
-                            {/*</View>*/}
                         </View>
                         <View style={ styles.center }>
                             <TouchableOpacity style={[styles.btn, {opacity: this.state.status === 'Solved' ? 0.2 : 1}]}
