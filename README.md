@@ -10,9 +10,10 @@ until all empty cells on an 8 * 8 grid are filled.
 
 ![iOS screenshot](./ios.png)
 
+## Load Data
 To load different suduku numbers, find the `suduku_data.json` file under `stores` directory and put the numbers as flat 
-string ordered by the horizontal order (on the 8 * 8 grid) into the 'numbers' field. The application will randomly pick 
-one number each time you click the 'Try Another' button.
+string ordered by the horizontal order (on the 8 * 8 grid) into the 'numbers' field. For an empty entry, simply put the 
+number '0' there. The application will randomly pick one number each time you click on the 'Try Another' button.
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app)
 and [Expo](https://expo.io/)
@@ -41,7 +42,7 @@ npm start
 
 This will run a server terminal that serves your native application in development mode. To view the application 
 in your mobile devices, you will need to install the [Expo client](https://expo.io) on your phone. 
-The __[Expo client]__ will reload your app if you save edits to your files, and you will see build errors and logs in the terminal.
+The Expo client will reload your app if you save edits to your files, and you will see build errors and logs in the terminal.
                                                      
 Sometimes you may need to pass the `--reset-cache` option on the `npm start` command to reset or clear 
 the React Native packager's cache. 
@@ -50,16 +51,16 @@ the React Native packager's cache.
 
 To view your application on your devices, you will first need to connect the mobile device to the same Wi-Fi network
 that runs your React Native application. Then you will need to download the [Expo client](https://expo.io/tools#client) 
-on iOS or Android in order to run your application. Once you have downloaded the __Expo client__, you can either view your
+on iOS or Android in order to run your application. Once you have downloaded the Expo client, you can either view your
 application by scanning the QR code displayed from the server terminal or have a link sent directly to your phone through 
-SMS over Cellular network. In the server terminal, to display the QR code, simply type `q` and to request an _Expo URL_ 
+SMS over Cellular network. In the server terminal, to display the QR code, simply type `q` and to request an __Expo URL__ 
 sent to your phone, type `s`, followed by your phone number. For other information, follow the instructions on the terminal
 screen. Notice that you do not need to create an account and sign in to Expo in order to view your application. 
 
 ## Running on mobile simulator
 
-To view your application on an iOS simulator (MacOS only) and Android simulator, you will need to set up the Xcode and
-Android development environment respectively. For setting up the Xcode development environment to run iOS simulator, 
+To view your application on an iOS simulator (MacOS only) and Android simulator, you will need to set up the __Xcode__ and
+__Android Studio__ development environment respectively. For setting up the Xcode development environment to run iOS simulator, 
 follow the official Xcode installation guideline from [Apple App Store](https://itunes.apple.com/app/xcode/id497799835).
 Once you have installed the Xcode, you can view your application on an iOS simulator by running:
 
@@ -69,7 +70,7 @@ Once you have installed the Xcode, you can view your application on an iOS simul
 
 from the project directory or type `i` on the server terminal while your React Native application is running through `npm start`
 
-For setting up the Android development environment and set up an virtual Android device, follow 
+For setting up the Android Studio and set up an virtual Android device, follow 
 [this](https://docs.expo.io/versions/v29.0.0/workflow/android-studio-emulator.html) link. You will need to install 
 Android Studio 3.0 +. Once you have set these up, you can view your application on an pre-configured Android device by
 running:
@@ -97,9 +98,12 @@ This requires registration for an Expo account and to open your app, each person
 To publish your React Native app created through Expo, install the `exp` command-line tool, and run the publish command:
 
 ```
-$ npm i -g exp
-$ exp publish
+  npm i -g exp
+  exp publish
 ```
+
+You may need to first login to the Expo account by running `exp login` first.
+
 
 ### Building an Expo "standalone" app
 
@@ -111,7 +115,7 @@ probably need an Apple Developer account or a Google Play Developer account.
 ### Ejecting from Create React Native App
 
 In the last stand if you want to add some native code (Objective-C or Swift for iOS and Java for Android) or access to the
-platform specific SDK in your application to build and deploy app yourself, you can _eject_ the application from Expo 
+platform specific SDKs in your application to build or deploy the app by yourself, you can _eject_ the application from Expo 
 and use Xcode or Android Studio IDEs to continue your development. The ejected code will be ready to be imported by 
 Xcode for iOS or by Android Studio for Android.
 
